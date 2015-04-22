@@ -12,13 +12,14 @@ import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.querybuilder.Select;
 import com.pearson.grid.dao.domain.Course;
 import com.pearson.grid.dao.domain.Greeting;
+import com.pearson.grid.dao.domain.User;
 
 public class CassandraDao {
 
 	private static Cluster cluster;
 	private static Session session;
 
-	private static final String keyspace ="las";
+	private static final String keyspace ="greetingkeyspace";
 
 	public static void setupCassandra() {
 		try {
@@ -48,6 +49,15 @@ public class CassandraDao {
 
 		} catch(Exception e) {
 			System.out.println("ERROR INSERTING GREETING: " + e);
+		}
+	}
+	
+	public void insertUser(User user) {
+		try {
+			CassandraOperations cassandraOps = new CassandraTemplate(session);
+			cassandraOps.insert(user);
+		} catch(Exception e) {
+			System.out.println("ERROR INSERTING USER: " + e);
 		}
 	}
 
